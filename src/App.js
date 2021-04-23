@@ -6,6 +6,7 @@ import About from './About/About';
 import Home from './Home/Home';
 import { Affix, Tooltip } from 'antd';
 import { UpSquareFilled } from '@ant-design/icons';
+import RegisterLogin from './RegisterLogin/RegisterLogin';
 
 function activeSpreder(expect, current, exact = false) {
   if (matchPath(current, { path: expect, exact })) {
@@ -33,6 +34,11 @@ function App() {
       <nav className="Navbar">
         <ul>
           <li>
+            <Link to="/login" {...activeSpreder("/login", location.pathname)}>
+              สมัครสมาชิก / เข้าสู่ระบบ
+            </Link>
+          </li>
+          <li>
             <Link to="/" {...activeSpreder("/", location.pathname, true)}>
               Home
             </Link>
@@ -47,6 +53,9 @@ function App() {
 
       <section className="App-mainbody">
         <Switch>
+          <Route path="/login">
+            <RegisterLogin />
+          </Route>
           <Route exact path="/">
             <Home />
           </Route>
