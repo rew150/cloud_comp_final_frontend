@@ -4,6 +4,8 @@ import { matchPath, Switch, useLocation } from 'react-router';
 import { Link, Route } from 'react-router-dom';
 import About from './About/About';
 import Home from './Home/Home';
+import { Affix } from 'antd';
+import { UpSquareFilled } from '@ant-design/icons';
 
 function activeSpreder(expect, current, exact = false) {
   if (matchPath(current, { path: expect, exact })) {
@@ -13,6 +15,14 @@ function activeSpreder(expect, current, exact = false) {
   } else {
     return {}
   }
+}
+
+function scrollTotop() {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
 }
 
 function App() {
@@ -45,6 +55,10 @@ function App() {
           </Route>
         </Switch>
       </section>
+
+      <Affix className='App-toTop'>
+        <UpSquareFilled onClick={scrollTotop} />
+      </Affix>
     </div>
   );
 }
