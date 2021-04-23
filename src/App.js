@@ -4,7 +4,7 @@ import { matchPath, Switch, useLocation } from 'react-router';
 import { Link, Route } from 'react-router-dom';
 import About from './About/About';
 import Home from './Home/Home';
-import { Affix } from 'antd';
+import { Affix, Tooltip } from 'antd';
 import { UpSquareFilled } from '@ant-design/icons';
 
 function activeSpreder(expect, current, exact = false) {
@@ -57,7 +57,9 @@ function App() {
       </section>
 
       <Affix className='App-toTop'>
-        <UpSquareFilled onClick={scrollTotop} />
+        <Tooltip placement='topLeft' title='To the top'>
+          <UpSquareFilled onClick={scrollTotop} />
+        </Tooltip>
       </Affix>
     </div>
   );
