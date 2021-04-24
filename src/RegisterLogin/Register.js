@@ -2,25 +2,8 @@ import { Button, Form, Input, message } from 'antd';
 import ky from 'ky';
 import React from 'react';
 import { kyp } from '../utils/kyp';
-
-const phoneNumberRegex = /^0[1-9][0-9]{8}$/g
-const citizenIdRegex = /^[1-9][0-9]{12}$/g
-
-const layout = {
-  labelCol: {
-    span: 6,
-  },
-  wrapperCol: {
-    span: 6,
-  },
-}
-
-const tailLayout = {
-  wrapperCol: {
-    offset: 6,
-    span: 6,
-  }
-}
+import { citizenIdRegex, formLayout, formTailLayout, phoneNumberRegex } from './Common';
+import MaskedPhoneNumber from './MaskedPhoneNumber';
 
 const handleSubmitForm = (onComplete) => async (json) => {
   try {
@@ -29,14 +12,16 @@ const handleSubmitForm = (onComplete) => async (json) => {
   } catch (error) {
     if (error instanceof ky.HTTPError) {
       if (error.response.status === 409) {
-        message.error('เบอร์โทรศัพท์หรือเลขบัตรประชาชนนี้มีผู้ใช้งานแล้ว')
+        message.error((await error.response.json()).message)
       } else {
         console.error(JSON.stringify(error))
+        message.error('Unexpected error')
       }
     } else if (error instanceof ky.TimeoutError) {
       message.error('Request time out')
     } else {
       console.error(JSON.stringify(error))
+      message.error('Unexpected error')
     }
   }
   
@@ -51,7 +36,7 @@ function Register(props) {
   return (
     <div>
       <h1>สมัครสมาชิก</h1>
-      <Form {...layout} form={form} onFinish={handleSubmitForm(onComplete)}>
+      <Form {...formLayout} form={form} onFinish={handleSubmitForm(onComplete)}>
         <Form.Item
           name="phoneNumber"
           label="หมายเลขโทรศัพท์มือถือ"
@@ -59,11 +44,11 @@ function Register(props) {
             {
               required: true,
               pattern: phoneNumberRegex,
-              message: "กรุณาใส่หมายเลขโทรศัพท์มือถือให้ถูกต้อง"
+              message: "กรุณาใส่หมายเลขโทรศัพท์มือถือให้ถูกต้อง",
             }
           ]}
         >
-          <Input />
+          <MaskedPhoneNumber />
         </Form.Item>
         <Form.Item
           name="citizenId"
@@ -102,7 +87,7 @@ function Register(props) {
         >
           <Input />
         </Form.Item>
-        <Form.Item {...tailLayout}>
+        <Form.Item {...formTailLayout}>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>&nbsp;
