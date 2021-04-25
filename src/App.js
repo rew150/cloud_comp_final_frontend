@@ -7,6 +7,7 @@ import Home from './Home/Home';
 import { Affix, Tooltip } from 'antd';
 import { UpSquareFilled } from '@ant-design/icons';
 import RegisterLogin from './RegisterLogin/RegisterLogin';
+import Appointment from './Appointment/Appointment';
 
 function activeSpreder(expect, current, exact = false) {
   if (matchPath(current, { path: expect, exact })) {
@@ -48,6 +49,11 @@ function App() {
               About
             </Link>
           </li>
+          <li>
+            <Link to="/appointment" {...activeSpreder("/appointment", location.pathname)}>
+              Appointment
+            </Link>
+          </li>
         </ul>
       </nav>
 
@@ -61,6 +67,9 @@ function App() {
           </Route>
           <Route path="/about">
             <About />
+          </Route>
+          <Route path="/appointment">
+            <Appointment/>
           </Route>
         </Switch>
       </section>
