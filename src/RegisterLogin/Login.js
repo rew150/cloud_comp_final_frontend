@@ -10,6 +10,7 @@ async function requestOTP(phone, callback) {
   try {
     const path = 'user/otp/'+encodeURIComponent(phone)
     const res = await kyp.get(path).text()
+    message.info('ส่ง OTP สำเร็จ')
     callback(res)
     return
   } catch (error) {
@@ -81,7 +82,6 @@ function Login() {
         <Form.Item {...formTailLayout}>
           <Button htmlType='submit' onClick={() => {
             form2.resetFields()
-            message.info('ส่ง OTP สำเร็จ')
           }}>
             Request OTP
           </Button>
