@@ -38,7 +38,12 @@
 
 .Navbar li > *:hover:not(.Navbar-active) {background-color: #111;}
 
+.Navbar li > *.Navbar-bright {background-color: #00a84c;}
+
+.Navbar li > *.Navbar-bright:hover {background-color: #00c257;}
+
 .Navbar li > *.Navbar-active {background-color: #0059ff;}
+.Navbar li > *.Navbar-active:hover {background-color: #0059ff;}
 
 .Navbar li.Navbar-right {float: right;}
 

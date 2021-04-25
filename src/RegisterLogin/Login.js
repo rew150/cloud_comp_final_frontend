@@ -1,7 +1,8 @@
 import { Button, Form, message } from 'antd';
 import ky from 'ky';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ReactInputMask from 'react-input-mask';
+import { AuthContext } from '../Auth/AuthContext';
 import { kyp } from '../utils/kyp';
 import { formLayout, formTailLayout, phoneNumberRegex } from './Common';
 import MaskedPhoneNumber from './MaskedPhoneNumber';
@@ -31,6 +32,8 @@ function Login() {
 
   const [form2] = Form.useForm()
 
+  const { fetchContext } = useContext(AuthContext)
+
   function handleSubmitFormReqOTP(val) {
     requestOTP(val.phoneNumber, (res) => res ? setPhoneNumber(res) : undefined)
   }
@@ -38,9 +41,10 @@ function Login() {
   async function handleSubmitFormSentOTP(val) {
     const json = { ...val, phoneNumber }
     try {
-      const res = await kyp.post('auth/login', { json }).json()
+      const res = await kyp.post('auth', { json }).json()
       if (res) {
         message.success('Login Successful')
+        fetchContext()
       }
     } catch (error) {
       if (error instanceof ky.HTTPError) {

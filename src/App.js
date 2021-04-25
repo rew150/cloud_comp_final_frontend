@@ -7,7 +7,9 @@ import Home from './Home/Home';
 import { Affix, Tooltip } from 'antd';
 import { UpSquareFilled } from '@ant-design/icons';
 import RegisterLogin from './RegisterLogin/RegisterLogin';
-import Appointment from './Appointment/Appointment';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from './Auth/AuthContext';
+import PrivateApp from './PrivateApp';
 
 function activeSpreder(expect, current, exact = false) {
   if (matchPath(current, { path: expect, exact })) {
@@ -30,15 +32,31 @@ function scrollTotop() {
 function App() {
   const location = useLocation()
 
+  const { userID, fetchContext, clearContext } = useContext(AuthContext);
+  const [isFirstTime, setIsFirstTime] = useState(true);
+
+  useEffect(() => {
+    if (isFirstTime) {
+      setIsFirstTime(false);
+      fetchContext();
+    }
+  }, [isFirstTime, fetchContext])
+
   return (
     <div className="App">
       <nav className="Navbar">
         <ul>
-          <li>
-            <Link to="/login" {...activeSpreder("/login", location.pathname)}>
-              สมัครสมาชิก / เข้าสู่ระบบ
-            </Link>
-          </li>
+          {
+            userID ? (
+              <></>
+            ) : (
+              <li>
+                <Link to="/login" className={activeSpreder("/login", location.pathname).className + ' Navbar-bright'}>
+                  สมัครสมาชิก / เข้าสู่ระบบ
+                </Link>
+              </li>
+            )
+          }
           <li>
             <Link to="/" {...activeSpreder("/", location.pathname, true)}>
               Home
@@ -49,11 +67,27 @@ function App() {
               About
             </Link>
           </li>
-          <li>
-            <Link to="/appointment" {...activeSpreder("/appointment", location.pathname)}>
-              Appointment
-            </Link>
-          </li>
+          {
+            userID ? (
+              <>
+                <li>
+                  <Link to="/private/appointment" {...activeSpreder("/private/appointment", location.pathname)}>
+                    Appointment
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/private/about" {...activeSpreder("/private/about", location.pathname)}>
+                    About2
+                  </Link>
+                </li>
+                <li className='Navbar-right'>
+                  <Link className='Navbar-bright' to="/" onClick={clearContext}>
+                    ออกจากระบบ
+                  </Link>
+                </li>
+              </>
+            ): <></>
+          }
         </ul>
       </nav>
 
@@ -62,14 +96,14 @@ function App() {
           <Route path="/login">
             <RegisterLogin />
           </Route>
-          <Route exact path="/">
-            <Home />
-          </Route>
           <Route path="/about">
             <About />
           </Route>
-          <Route path="/appointment">
-            <Appointment/>
+          <Route path="/private">
+            <PrivateApp />
+          </Route>
+          <Route path="/">
+            <Home />
           </Route>
         </Switch>
       </section>
