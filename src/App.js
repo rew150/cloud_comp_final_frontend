@@ -10,6 +10,7 @@ import RegisterLogin from './RegisterLogin/RegisterLogin';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from './Auth/AuthContext';
 import PrivateApp from './PrivateApp';
+import Timetable from './Timetable/Timetable';
 
 function activeSpreder(expect, current, exact = false) {
   if (matchPath(current, { path: expect, exact })) {
@@ -104,6 +105,9 @@ function App() {
           </Route>
           <Route path="/">
             <Home />
+          </Route>
+          <Route path = "/timetable">
+            <Timetable/>
           </Route>
         </Switch>
       </section>
