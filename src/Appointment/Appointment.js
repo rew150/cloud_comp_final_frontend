@@ -1,5 +1,6 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useContext } from 'react'
 import {Form, FormGroup, Label, Input, FormText, Button, Alert,Container} from 'reactstrap'
+import { TimetableContext } from '../Context/TimetableContext';
 
 const initialState = {
   showBody: false,
@@ -63,6 +64,7 @@ function reducer(state, action) {
 function Appointment(props) {
 
   const [state, dispatch] = useReducer(reducer, initialState)
+  const { id } = useContext(TimetableContext)
 
   function setState(state) {
     dispatch({
@@ -89,7 +91,7 @@ function Appointment(props) {
 
   return (
     <Container>
-      <h3>Appointment</h3>
+      <h3>Appointment (id: {id})</h3>
 
       <FormText color="muted" className="mb-1">
         <span className="text-danger">*</span>All fields are required
@@ -113,16 +115,6 @@ function Appointment(props) {
             <option>Male</option>
             <option>Female</option>
           </Input>
-        </FormGroup>
-
-        <FormGroup>
-          <Label for="aptDate">Date</Label>
-          <Input type="date" id="aptDate" value={state.aptDate} onChange={handleChange} />
-        </FormGroup>
-
-        <FormGroup>
-          <Label for="aptTime">Time</Label>
-          <Input type="time" id="aptTime" value={state.aptTime} onChange={handleChange} />
         </FormGroup>
 
         <FormGroup>

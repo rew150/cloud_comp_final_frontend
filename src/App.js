@@ -11,6 +11,8 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from './Auth/AuthContext';
 import PrivateApp from './PrivateApp';
 import Timetable from './Timetable/Timetable';
+import Appointment from './Appointment/Appointment';
+import { TimetableProvider } from './Context/TimetableContext';
 
 function activeSpreder(expect, current, exact = false) {
   if (matchPath(current, { path: expect, exact })) {
@@ -72,7 +74,7 @@ function App() {
             userID ? (
               <>
                 <li>
-                  <Link to="/private/appointment" {...activeSpreder("/private/appointment", location.pathname)}>
+                  <Link to="/appointment" {...activeSpreder("/private/appointment", location.pathname)}>
                     Appointment
                   </Link>
                 </li>
@@ -93,23 +95,25 @@ function App() {
       </nav>
 
       <section className="App-mainbody">
-        <Switch>
-          <Route path="/login">
-            <RegisterLogin />
-          </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/private">
-            <PrivateApp />
-          </Route>
-          <Route path = "/timetable">
-            <Timetable />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
+        <TimetableProvider>
+          <Switch>
+            <Route path="/login">
+              <RegisterLogin />
+            </Route>
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/private">
+              <PrivateApp />
+            </Route>
+            <Route path = "/timetable">
+              <Timetable />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </TimetableProvider>
       </section>
 
       <Affix className='App-toTop'>
