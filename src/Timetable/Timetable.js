@@ -1,20 +1,34 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {Table,Container,Button,Form} from 'react-bootstrap';
+import { kyp } from '../utils/kyp';
+
 
 const Timetable = () => {
     var today = new Date();
     today.setHours(today.getHours() + 7);
-    const [startDate, setStartDate] = useState(today.toJSON().slice(0,10));
+    const [dueDate, setDueDate] = useState(today.toJSON().slice(0,10));
+    const [doctor, setDoctor] = useState('');
+    const [beginTime, setBegintime] = useState('');
+    const [isAvailable, setIsAvailable] = useState('');
+    const getURL = "/appointment/date/2021-04-26"
+
+
+    useEffect(() => {
+        (async () => {
+            kyp.get(getURL).
+        })()
+    },[])
+
+
     return (
         <Container>
             <Form.Group controlId="Date">
-                
-                <Form.Control  type="date" min={new Date().toJSON().slice(0,10)} value={startDate} onChange={e => setStartDate(e.target.value)} />
+                <Form.Control type="date" min={new Date().toJSON().slice(0,10)}  onChange={e => setDueDate(e.target.value)} />
             </Form.Group>
-            <h3>ตารางนัดหมอ วันที่ {startDate}</h3>
+            <h3>ตารางนัดหมอ วันที่ {dueDate} </h3>
             <Table striped bordered hover>
-            <thead>
-                <tr>
+            <thead class = "text-center">
+                <tr >
                     <th></th>
                     <th>10.00-11.30 </th>
                     <th>11.30-13.00</th>
@@ -24,34 +38,8 @@ const Timetable = () => {
                     <th>17.30-19.00</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>หมอ A</td>
-                    <td><Button>ว่าง</Button></td>
-                    <td><Button>ว่าง</Button></td>
-                    <td><Button variant="danger">เต็มแล้ว</Button></td>
-                    <td><Button>ว่าง</Button></td>
-                    <td><Button variant="danger">เต็มแล้ว</Button></td>
-                    <td><Button variant="danger">เต็มแล้ว</Button></td>
-                </tr>
-                <tr>
-                    <td>หมอ B</td>
-                    <td><Button variant="danger">เต็มแล้ว</Button></td>
-                    <td><Button variant="danger">เต็มแล้ว</Button></td>
-                    <td><Button variant="danger">เต็มแล้ว</Button></td>
-                    <td><Button>ว่าง</Button></td>
-                    <td><Button>ว่าง</Button></td>
-                    <td><Button variant="danger">เต็มแล้ว</Button></td>
-                </tr>
-                <tr>
-                    <td>หมอ C</td>
-                    <td><Button>ว่าง</Button></td>
-                    <td><Button variant="danger">เต็มแล้ว</Button></td>
-                    <td><Button variant="danger">เต็มแล้ว</Button></td>
-                    <td><Button>ว่าง</Button></td>
-                    <td><Button>ว่าง</Button></td>
-                    <td><Button variant="danger">เต็มแล้ว</Button></td>
-                </tr>
+            <tbody  class = "text-center" >
+                
                 
             </tbody>
             </Table>
@@ -60,4 +48,4 @@ const Timetable = () => {
     )
 }
 
-export default Timetable
+export default Timetable;
