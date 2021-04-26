@@ -103,11 +103,11 @@ function App() {
           <Route path="/private">
             <PrivateApp />
           </Route>
+          <Route path = "/timetable">
+            <Timetable />
+          </Route>
           <Route path="/">
             <Home />
-          </Route>
-          <Route path = "/timetable">
-            <Timetable/>
           </Route>
         </Switch>
       </section>

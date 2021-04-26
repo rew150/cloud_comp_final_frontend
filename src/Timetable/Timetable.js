@@ -10,12 +10,13 @@ const Timetable = () => {
     const [doctor, setDoctor] = useState('');
     const [beginTime, setBegintime] = useState('');
     const [isAvailable, setIsAvailable] = useState('');
-    const getURL = "/appointment/date/2021-04-26"
+    const getURL = "appointment/date/2021-04-26"
 
 
     useEffect(() => {
         (async () => {
-            kyp.get(getURL).
+            const res = await kyp.get(getURL).json()
+            console.log(res)
         })()
     },[])
 
