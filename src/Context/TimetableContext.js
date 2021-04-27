@@ -3,10 +3,10 @@ import React, { createContext, useState } from 'react';
 export const TimetableContext = createContext();
 
 export function TimetableProvider({ children }) {
-  const [id, setId] = useState('');
+  const [timeslot, setTimeslot] = useState('');
 
   return (
-    <TimetableContext.Provider value={{id, setId}}>
+    <TimetableContext.Provider value={{timeslot, setTimeslot}}>
       {children}
     </TimetableContext.Provider>
   );

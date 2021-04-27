@@ -13,11 +13,10 @@ const Timetable = () => {
     const [isAvailable, setIsAvailable] = useState('');
     const [data, setData] = useState([]);
     const history = useHistory();
-    const {setId} = useContext(TimetableContext);
-    function handleClick(id) {
+    const {setTimeslot} = useContext(TimetableContext);
+    function handleClick(t) {
         return () => {
-            setId(id)
-            console.log(id)
+            setTimeslot(t)
             history.push('/private/appointment');
         }
     }
@@ -98,7 +97,7 @@ const Timetable = () => {
                                     <td key={timeslot.id}>
                                         {
                                             timeslot.isAvailable ? (
-                                                <Button onClick={handleClick(timeslot.id)}>ว่าง</Button>
+                                                <Button onClick={handleClick(timeslot)}>ว่าง</Button>
                                             ) : (
                                                 <Button variant="danger">เต็ม</Button>
                                             )

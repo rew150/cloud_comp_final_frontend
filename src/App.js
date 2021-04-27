@@ -11,7 +11,6 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from './Auth/AuthContext';
 import PrivateApp from './PrivateApp';
 import Timetable from './Timetable/Timetable';
-import Appointment from './Appointment/Appointment';
 import { TimetableProvider } from './Context/TimetableContext';
 
 function activeSpreder(expect, current, exact = false) {
@@ -66,6 +65,11 @@ function App() {
             </Link>
           </li>
           <li>
+            <Link to="/timetable" {...activeSpreder('/timetable', location.pathname)}>
+              Time Table
+            </Link>
+          </li>
+          <li>
             <Link to="/about" {...activeSpreder("/about", location.pathname)}>
               About
             </Link>
@@ -73,16 +77,6 @@ function App() {
           {
             userID ? (
               <>
-                <li>
-                  <Link to="/appointment" {...activeSpreder("/private/appointment", location.pathname)}>
-                    Appointment
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/private/about" {...activeSpreder("/private/about", location.pathname)}>
-                    About2
-                  </Link>
-                </li>
                 <li className='Navbar-right'>
                   <Link className='Navbar-bright' to="/" onClick={clearContext}>
                     ออกจากระบบ
