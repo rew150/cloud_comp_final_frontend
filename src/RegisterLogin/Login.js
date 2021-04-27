@@ -47,10 +47,7 @@ function Login() {
       const res = await kyp.post('auth', { json }).json()
       if (res) {
         message.success('Login Successful')
-        (async () => {
-          await fetchContext();
-          history.push('/')
-        )
+        fetchContext(() => history.push('/'));
       }
     } catch (error) {
       if (error instanceof ky.HTTPError) {

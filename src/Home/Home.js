@@ -53,8 +53,8 @@ function Home() {
 
   return (
     <Container>
-      <h1>HOME</h1>
-      <Card title="จำนวนคนตอนนี้" style={{ maxWidth: 300, margin: '50px 0px 50px 0px' }}>
+      <h1>Doctor Appointment Assistant</h1>
+      <Card title="จำนวนคนในโรงพยาบาลตอนนี้" style={{ maxWidth: 300, margin: '50px 0px 50px 0px' }}>
         <p><b>{num}</b></p>
       </Card>
       <h3>ข้อมูลจำนวนการนัด วันที่ {dueDate}</h3>

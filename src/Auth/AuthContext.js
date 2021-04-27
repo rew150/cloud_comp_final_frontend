@@ -7,12 +7,22 @@ export const AuthContext = React.createContext();
 export function AuthProvider({ children }) {
   const [userID, setuserID] = useState('');
 
-  const fetchContext = async () => {
+  const fetchContext = async (callback) => {
     try {
       const res = await kyp.get('auth').json();
       setuserID(res.userID || '');
+      if (callback) {
+        setTimeout(() => {
+          callback(true)
+        }, 0);
+      }
       return true;
     } catch (e) {}
+    if (callback) {
+      setTimeout(() => {
+        callback(false)
+      }, 0);
+    }
     return false;
   }
 
