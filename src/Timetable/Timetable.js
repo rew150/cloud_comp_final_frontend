@@ -5,9 +5,12 @@ import { groupBy } from '../utils/groupBy';
 import {useHistory} from 'react-router';
 import { TimetableContext } from '../Context/TimetableContext';
 
+const zeroPad = (num, places) => String(num).padStart(places, '0');
+const today = new Date();
+const todayDueDate = `${today.getFullYear()}-${zeroPad(today.getMonth()+1,2)}-${today.getDate()}`
+
 const Timetable = () => {
-    const today = new Date();
-    const [dueDate, setDueDate] = useState(`${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`);
+    const [dueDate, setDueDate] = useState(todayDueDate);
     const [doctor, setDoctor] = useState('');
     const [beginTime, setBegintime] = useState('');
     const [isAvailable, setIsAvailable] = useState('');
@@ -20,18 +23,22 @@ const Timetable = () => {
             history.push('/private/appointment');
         }
     }
-    const getURL = "appointment/date/2021-04-27"
+    const getURL = `appointment/date/${dueDate}`
 
 
     useEffect(() => {
         (async () => {
-            const res = await kyp.get(getURL).json()
-            const appointments = res.appointments.map((v) => ({...v, beginTime: v.beginTime.slice(11,16)}))
-            // console.log(appointments)
-            const groups = groupBy(appointments, a => a.doctor)
-            setData(Array.from(groups.entries()));
+            try {
+                const res = await kyp.get(getURL).json()
+                const appointments = res.appointments.map((v) => ({...v, beginTime: v.beginTime.slice(11,16)}))
+                // console.log(appointments)
+                const groups = groupBy(appointments, a => a.doctor)
+                setData(Array.from(groups.entries()));
+            } catch (error) {
+                console.error(error)
+            }
         })()
-    },[])
+    },[getURL])
 //   "appointments": [
 //     {
 //         "id": 1,
@@ -70,7 +77,7 @@ const Timetable = () => {
     return (
         <Container>
             <Form.Group controlId="Date">
-                <Form.Control type="date" min={new Date().toJSON().slice(0,10)}  onChange={e => setDueDate(e.target.value)} />
+                <Form.Control type="date" min={todayDueDate} onChange={e => setDueDate(e.target.value)} />
             </Form.Group>
             <h3>ตารางนัดหมอ วันที่ {dueDate} </h3>
             <Table striped bordered hover>
