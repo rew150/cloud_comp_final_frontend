@@ -1,6 +1,6 @@
 import ky from 'ky'
 
-const kypt = ky.create({
+export const kyp = ky.create({
   prefixUrl: process.env.REACT_APP_API_HOST,
   cache: 'no-cache',
   hooks: {
@@ -9,14 +9,6 @@ const kypt = ky.create({
         request.headers.delete('If-None-Match');
       }
     ]
-  }
+  },
+  credentials: 'include'
 });
-
-let kype;
-if (process.env.NODE_ENV === 'development') {
-  kype = kypt.extend({ credentials: 'include' })
-} else {
-  kype = kypt
-}
-
-export const kyp = kype

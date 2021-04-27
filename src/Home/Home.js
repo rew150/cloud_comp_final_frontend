@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card } from 'antd';
-import {useHistory} from 'react-router';
+import { Card } from 'antd';
 import {Container, Form, Table } from 'react-bootstrap'
 import { kyp } from '../utils/kyp';
 
@@ -8,23 +7,24 @@ const zeroPad = (num, places) => String(num).padStart(places, '0');
 const today = new Date();
 const todayDueDate = `${today.getFullYear()}-${zeroPad(today.getMonth()+1,2)}-${today.getDate()}`
 
-const fetching = async (setNum) => {
+const fetching = async (setNum, cb) => {
   try {
     const num = await kyp.get('info').text()
     setNum(num)
   } catch (error) {
     console.error(error)
   }
-  setTimeout(() => {
-    fetching(setNum)
-  }, 3000);
+  if (!cb.circuitBreak) {
+    setTimeout(() => {
+      fetching(setNum, cb)
+    }, 3000);
+  } else {
+    console.log('circuit broken')
+  }
 }
 
 function Home() {
-  
-  const history = useHistory();
   const [dueDate, setDueDate] = useState(todayDueDate);
-  const [isFirstTime, setIsFirstTime] = useState(true);
   const [num, setNum] = useState();
   const [patientCount, setPatientCount] = useState([]);
 
@@ -44,9 +44,10 @@ function Home() {
   },[getURL])
 
   useEffect(() => {
-    if (isFirstTime) {
-      setIsFirstTime(false);
-      fetching(setNum);
+    const cb = { circuitBreak: false };
+    fetching(setNum, cb);
+    return () => {
+      cb.circuitBreak = true;
     }
   }, []);
 
